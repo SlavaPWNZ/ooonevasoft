@@ -1,112 +1,44 @@
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Testpage</title>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Testpage</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link href="css/cover.css" rel="stylesheet">
+</head>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+<body class="text-center">
+<div class="d-flex h-100 p-5 mx-auto flex-column">
+    <main role="main" class="inner cover">
+        <h1 class="cover-heading">Ваш текущий баланс | {{ $last_balances[0]['balance'] }}</h1>
+        <p class="lead mt-5">История вашего баланса</p>
+    </main>
+    <table class="table table-dark table-sm table-hover table-inverse">
+        <thead class="thead-dark">
+        <tr>
+            <th>Баланс</th>
+            <th>Дата</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+        foreach ($last_balances as $row)
+        {
+            $newdate=date("H:i:s | d/m/Y",strtotime($row['ts']));
+            echo '<tr>
+                                <td><b>'.$row['balance'].'</b></td>
+                                <td><b>'.$newdate.'</b></td>
+                                </tr>
+                                ';
+        }
+        ?>
+        </tbody>
+    </table>
+</div>
+</body>
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-            table {
-                margin-left:auto;
-                margin-right:auto;
-            }
-            th {
-                font-weight: normal;
-                border-bottom: 2px solid #6678b1;
-                border-right: 30px solid #fff;
-                border-left: 30px solid #fff;
-                color: #039;
-                padding: 8px 2px;
-            }
-            td {
-                border-right: 30px solid #fff;
-                border-left: 30px solid #fff;
-                color: #669;
-                padding: 12px 2px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            <div class="content">
-                <div class="title m-b-md">
-                    Ваш текущий баланс | {{ $last_balances[0]['balance'] }}
-                </div>
-                <h3>История вашего баланса</h3>
-                <table>
-                    <tr>
-                        <th>Баланс</th>
-                        <th>Дата</th>
-                    </tr>
-                <?php
-                foreach ($last_balances as $row)
-                    {
-                        $newdate=date("H:i:s | d/m/Y",strtotime($row['ts']));
-                        echo '<tr>
-                        <td><b>'.$row['balance'].'</b></td>
-                        <td><b>'.$newdate.'</b></td>
-                        </tr>
-                        ';
-                    }
-                ?>
-                </table>
-            </div>
-        </div>
-    </body>
 </html>
