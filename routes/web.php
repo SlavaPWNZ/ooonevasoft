@@ -15,4 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('testpage', 'Testpage');
+Route::resource('testpage', 'Testpage',['only'=>'index']);

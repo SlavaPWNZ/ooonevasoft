@@ -6,26 +6,32 @@ use App\Balance;
 
 class MyClass
 {
+    public $TAXI_URL;
+    public $TAXI_LOGIN;
+    public $TAXI_PASSWORD;
+    public $TAXI_COOKIE_FILE;
+    public $TAXI_REGEXP;
+
     public function isAuth( $data ){
         return preg_match('/action=logout/',$data);
     }
 
     public function connect(){
         $ch = curl_init();
-        $url = env('TAXI_URL');
+        $url = $this->TAXI_URL;
         curl_setopt($ch, CURLOPT_URL, $url );
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_COOKIEJAR, dirname(__FILE__).env('TAXI_COOKIE_FILE'));
-        curl_setopt($ch, CURLOPT_COOKIEFILE,  dirname(__FILE__).env('TAXI_COOKIE_FILE'));
+        curl_setopt($ch, CURLOPT_COOKIEJAR, dirname(__FILE__).$this->TAXI_COOKIE_FILE);
+        curl_setopt($ch, CURLOPT_COOKIEFILE,  dirname(__FILE__).$this->TAXI_COOKIE_FILE);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, array(
             'action'=>'login',
-            'login'=>env('TAXI_LOGIN'),
-            'password'=>env('TAXI_PASSWORD'),
+            'login'=>$this->TAXI_LOGIN,
+            'password'=>$this->TAXI_PASSWORD,
         ));
         $result=$this->isAuth($data = curl_exec($ch))?1:0;
         curl_close($ch);
@@ -34,7 +40,7 @@ class MyClass
     }
 
     public function getBalanceHTML($page){
-        preg_match(env('TAXI_REGEXP'),$page,$balance);
+        preg_match($this->TAXI_REGEXP,$page,$balance);
         return $balance[1];
     }
 
